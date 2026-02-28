@@ -1,0 +1,110 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const experiences = [
+  
+{
+    company: "SKEZI",
+    role: "Développeur Fullstack",
+    typeOfContract: 'CDI',
+    period: "Sep. 2022 — Aujourd'hui",
+    description:
+      "Conception et déploiement de solutions numériques innovantes pour la recherche clinique, permettant la collecte et l'analyse de données de santé à grande échelle pour des projets d'envergure nationale.",
+      missions: [
+      "Développement et maintenance d'une application web de gestion de e-cohorte pour la collecte de données de vie réelle dans la recherche publique & privée.",
+      'Développement du site Le French Gut.',
+    ],
+    stack: ["React", "Tailwind CSS 4", "Typescript", "Node.js", "NestJS", "PHP", "Symfony", "PostgreSQL", "MySQL","Git", "Docker"]
+  },
+  {
+    company: "SKEZI",
+    role: "Développeur Fullstack",
+    typeOfContract: 'Alternance',
+    period: "Sep. 2021 — Sep. 2022",
+    description:
+      'Alternance réalisée dans le cadre de ma formation "Développeur Web" chez OpenClassrooms.',
+    missions: [
+      'Développement de plusieurs plateformes telles que Le French Gut, Spoon, New PerSEPtion, Pratiques Propofol.',
+      'Développement d’une application web en collaboration avec Withings.',
+      'Participation à la refonte du site vitrine avec Webflow.',
+    ],
+    stack: ["React", "Typescript", "Node.js", "NestJS", "MongoDB", "PostgreSQL", "Git", "Docker"]
+  },
+  {
+    company: "Oceanis Informatique",
+    role: "Développeur PHP",
+    typeOfContract: 'Stage',
+    period: "Oct. 2020 — Nov. 2020",
+    description: "Ce stage m'a permis de beaucoup apprendre dans le développement web. J'ai pu m'améliorer en PHP et apprendre énormément comme les commandes Git, la création d'un hôte virtuel avec un nom de domaine personnalisé, mieux déboguer un code, créer et gérer une clé SSH, être autonome dans la recherche d'informations, etc.",
+    missions: [
+      "Intégration de l'API MailChimp au sein du service de newsletter proposé par miShop (service créé par Oceanis Informatique).",
+      "Ajout et gestion des contacts via l'API MailChimp.",
+      "Ajout, gestion et envois de newsletters via l'API MailChimp.",
+      'Programmation en PHP avec WAMP en serveur local.',
+      'Commandes Git.',
+    ],
+    stack: ["PHP", "Git", "Wamp", "Mailchimp API"]
+  },
+];
+---
+
+<section id="experience" class="section-container">
+  <div class="flex flex-col gap-4 mb-16">
+    <h2 class="text-3xl md:text-4xl font-bold">Parcours professionnel</h2>
+    <p class="text-zinc-400 max-w-xl">
+      Mon évolution en tant que développeur, des premières lignes de code aux architectures complexes.
+    </p>
+  </div>
+
+  <div class="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-zinc-800 before:to-transparent">
+    
+    {experiences.map((exp) => (
+      <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+        
+        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-zinc-800 bg-zinc-950 text-indigo-400 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 group-hover:border-indigo-500/50 transition-colors duration-500">
+          <Icon name="lucide:briefcase" class="w-5 h-5" />
+        </div>
+
+        <div class="w-[calc(100%-4rem)] md:w-[45%] p-6 rounded-2xl border border-zinc-800 bg-zinc-900/20 hover:bg-zinc-900/40 hover:border-indigo-500/50 transition-all duration-500">
+          
+          <div class="flex flex-col mb-5">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+              <h3 class="text-lg font-bold text-zinc-100">{exp.role}</h3>
+              <time class="text-[10px] font-mono font-bold text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20 whitespace-nowrap">
+                {exp.period}
+              </time>
+            </div>
+            
+            <div class="flex items-center gap-3">
+              <span class="text-sm font-semibold text-zinc-400">{exp.company}</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-zinc-800/80 text-zinc-500 border border-zinc-700 text-[10px] font-mono uppercase tracking-widest">
+                {exp.typeOfContract}
+              </span>
+            </div>
+          </div>
+          
+          <p class="text-sm text-zinc-400 leading-relaxed mb-6 italic opacity-80">
+            {exp.description}
+          </p>
+
+          <ul class="space-y-3 mb-8">
+            {exp.missions.map(mission => (
+              <li class="flex items-start gap-3 text-sm text-zinc-400">
+                <Icon name="lucide:chevron-right" class="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
+                <span class="leading-snug">{mission}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="flex flex-wrap gap-2">
+            {exp.stack.map(tech => (
+              <span class="text-[10px] font-mono text-zinc-400 bg-zinc-800/30 px-2.5 py-1 rounded border border-zinc-800 group-hover:border-zinc-700 transition-colors">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

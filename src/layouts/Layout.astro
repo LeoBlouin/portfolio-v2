@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+    title = "Portfolio | Développeur Fullstack", 
+    description = "Développeur Fullstack expert TypeScript, NestJS et Astro." 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+
+		<ClientRouter />
+	</head>
+
+	<body class="bg-zinc-950 text-zinc-300 antialiased min-h-screen flex flex-col relative">
+		
+		<div class="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#1e1e20_1px,transparent_1px)] [background-size:32px_32px]"></div>
+
+		<Header />
+		
+		<main class="grow">
+			<slot />
+		</main>
+
+		<Footer />
+
+		<script>
+			const setupReveal = () => {
+				const observer = new IntersectionObserver(
+					entries => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add('active');
+							}
+						});
+					},
+					{ threshold: 0.1 },
+				);
+				document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+			};
+
+			setupReveal();
+			document.addEventListener('astro:after-swap', setupReveal);
+		</script>
+	</body>
+</html>

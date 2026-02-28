@@ -1,0 +1,104 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const navItems = [
+  { name: 'À propos', href: '#about' },
+  { name: 'Projets', href: '#projects' },
+  { name: 'Expériences', href: '#experience' },
+  { name: 'Contact', href: '#contact' },
+];
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 sm:p-6">
+  <nav id="main-nav" class="flex items-center justify-between w-full max-w-5xl gap-2 p-1.5 px-4 glass-card rounded-3xl sm:rounded-full bg-zinc-900/80 border-zinc-700/50 shadow-lg transition-all duration-300 shadow-indigo-600/15">
+    
+    <a href="/" class="flex items-center gap-2 px-3 py-1 group shrink-0">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/20">
+        <Icon name="lucide:terminal" class="w-5 h-5 text-white" />
+      </div>
+      <span class="text-zinc-100 font-bold tracking-tight">Léo Blouin<span class="text-indigo-500">.</span></span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-1">
+      {navItems.map((item) => (
+        <li>
+          <a href={item.href} class="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 rounded-full transition-all hover:bg-zinc-800">
+            {item.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-1">
+      <div class="hidden sm:flex items-center mr-2">
+        <a href="https://github.com/LeoBlouin" target="_blank" class="p-2 text-zinc-400 hover:text-indigo-400 transition-colors" aria-label="GitHub">
+          <Icon name="lucide:github" class="w-5 h-5" />
+        </a>
+      </div>
+
+      <button id="menu-toggle" class="md:hidden p-2 text-zinc-300 hover:bg-zinc-800 rounded-xl transition-colors" aria-label="Menu">
+        <Icon name="lucide:menu" class="w-6 h-6" id="menu-icon" />
+        <Icon name="lucide:x" class="w-6 h-6 hidden" id="close-icon" />
+      </button>
+
+      <a href="#contact" class="hidden md:block bg-zinc-100 text-zinc-950 px-5 py-2 rounded-full text-sm font-bold hover:bg-white transition-colors">
+        Me contacter
+      </a>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="fixed inset-0 top-22 mx-4 hidden md:hidden">
+    <div class="glass-card bg-zinc-900/95 border-zinc-800 rounded-4xl p-6 shadow-2xl animate-in fade-in zoom-in duration-300">
+      <ul class="flex flex-col gap-4">
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} class="mobile-nav-link block p-4 text-lg font-semibold text-zinc-300 hover:text-indigo-400 border-b border-zinc-800/50">
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="flex justify-center gap-8 mt-8">
+         <a href="#" class="text-zinc-400 hover:text-white"><Icon name="lucide:github" class="w-6 h-6" /></a>
+         <a href="#" class="text-zinc-400 hover:text-white"><Icon name="lucide:linkedin" class="w-6 h-6" /></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleBtn = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+  const toggleMenu = () => {
+    mobileMenu?.classList.toggle('hidden');
+    menuIcon?.classList.toggle('hidden');
+    closeIcon?.classList.toggle('hidden');
+    // Empêcher le scroll quand le menu est ouvert
+    document.body.classList.toggle('overflow-hidden');
+  };
+
+  toggleBtn?.addEventListener('click', toggleMenu);
+
+  // Fermer le menu quand on clique sur un lien
+  navLinks.forEach(link => {
+    link.addEventListener('click', toggleMenu);
+  });
+</script>
+
+<style>
+  header {
+    animation: nav-reveal linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100px;
+  }
+
+  @keyframes nav-reveal {
+    to {
+      transform: translateY(-4px) scale(0.98);
+    }
+  }
+</style>

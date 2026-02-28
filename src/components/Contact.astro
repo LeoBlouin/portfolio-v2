@@ -1,0 +1,145 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<section id="contact" class="section-container">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+    
+    <div class="space-y-6">
+      <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white">
+        Démarrons votre <br />
+        <span class="text-indigo-400">prochain projet</span>.
+      </h2>
+      <p class="text-zinc-400 text-lg leading-relaxed max-w-md">
+        Besoin d'une expertise en architecture Backend ou d'une interface performante ? 
+        Envoyez-moi un message, je réponds généralement sous 24h.
+      </p>
+
+      <div class="space-y-4 pt-4">
+        <div class="flex items-center gap-4 text-zinc-300">
+          <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg">
+            <Icon name="lucide:mail" class="w-5 h-5 text-indigo-400" />
+          </div>
+          <a href="mailto:leoblouinpro@gmail.com" class="text-sm font-mono">leoblouinpro@gmail.com</a>
+        </div>
+        <div class="flex items-center gap-4 text-zinc-300">
+          <div class="p-2 bg-zinc-900 border border-zinc-800 rounded-lg">
+            <Icon name="lucide:map-pin" class="w-5 h-5 text-indigo-400" />
+          </div>
+          <span class="text-sm">Rennes, France (Remote OK)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+      
+      <div class="relative bg-zinc-900/50 border border-zinc-800 p-8 rounded-[2rem] backdrop-blur-sm">
+        <form 
+          id="contact-form"
+          action="https://formspree.io/f/xojnbnvp" 
+          method="POST"
+          class="space-y-5"
+        >
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-2">
+              <label for="name" class="text-xs font-mono uppercase tracking-widest text-zinc-500 ml-1">Nom</label>
+              <input 
+                type="text" name="name" id="name" required placeholder="Jean Dupont"
+                class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-700"
+              />
+            </div>
+            <div class="space-y-2">
+              <label for="email" class="text-xs font-mono uppercase tracking-widest text-zinc-500 ml-1">Email</label>
+              <input 
+                type="email" name="_replyto" id="email" required placeholder="jean@gmail.com"
+                class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-700"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="subject" class="text-xs font-mono uppercase tracking-widest text-zinc-500 ml-1">Objet</label>
+            <input 
+              type="text" name="subject" id="subject" placeholder="Projet NestJS / Astro"
+              class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-700"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="message" class="text-xs font-mono uppercase tracking-widest text-zinc-500 ml-1">Message</label>
+            <textarea 
+              name="message" id="message" rows="4" required placeholder="Dites-moi tout..."
+              class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors placeholder:text-zinc-700 resize-none"
+            ></textarea>
+          </div>
+
+          <input type="text" name="_gotcha" style="display:none" />
+
+          <button 
+            type="submit" 
+            id="submit-btn"
+            class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-500/20 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Icon name="lucide:send" class="w-5 h-5" />
+            <span>Envoyer le message</span>
+          </button>
+        </form>
+
+        <div id="success-status" class="hidden py-12 text-center animate-in fade-in zoom-in duration-500">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
+                <Icon name="lucide:check" class="w-8 h-8 text-indigo-400" />
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">C'est envoyé !</h3>
+            <p class="text-zinc-400 mb-6">Merci pour votre message, je reviens vers vous rapidement.</p>
+            <button id="reset-form" class="text-sm font-mono text-indigo-400 hover:text-indigo-300 underline underline-offset-4 cursor-pointer">
+                Envoyer un autre message
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  const successStatus = document.getElementById('success-status');
+  const submitBtn = document.getElementById('submit-btn');
+  const resetBtn = document.getElementById('reset-form');
+
+  contactForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(contactForm);
+    const btnSpan = submitBtn?.querySelector('span');
+    
+    if (btnSpan) btnSpan.textContent = 'Envoi...';
+    if (submitBtn) (submitBtn as HTMLButtonElement).disabled = true;
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        contactForm.classList.add('hidden');
+        successStatus?.classList.remove('hidden');
+      } else {
+        alert("Une erreur est survenue, veuillez réessayer.");
+      }
+    } catch (err) {
+      alert("Erreur réseau. Vérifiez votre connexion.");
+    } finally {
+      if (btnSpan) btnSpan.textContent = 'Envoyer le message';
+      if (submitBtn) (submitBtn as HTMLButtonElement).disabled = false;
+    }
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    contactForm.reset();
+    successStatus?.classList.add('hidden');
+    contactForm.classList.remove('hidden');
+  });
+</script>
