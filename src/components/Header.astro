@@ -1,28 +1,36 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-const navItems = [
+const { isFreelance = false } = Astro.props;
+
+const navLinksPortfolio = [
   { name: 'À propos', href: '#about' },
   { name: 'Projets', href: '#projects' },
   { name: 'Expériences', href: '#experience' },
   { name: 'Contact', href: '#contact' },
 ];
+
+const navLinksFreelance = [
+  { name: 'L’Offre', href: '#offre' },
+  { name: 'Ma Méthode', href: '#methode' },
+  { name: 'Contact', href: '#contact' },
+];
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 flex justify-center p-4 sm:p-6">
-  <nav id="main-nav" class="flex items-center justify-between w-full max-w-5xl gap-2 p-1.5 px-4 bg-zinc-900/80 backdrop-blur-md border border-zinc-700/50 rounded-full shadow-lg transition-all duration-300 shadow-indigo-600/15">
+  <nav id="main-nav" class={`flex items-center justify-between w-full max-w-5xl gap-2 p-1.5 px-4 backdrop-blur-md border rounded-full shadow-lg transition-all duration-300 shadow-indigo-600/15 ${isFreelance ? 'bg-white/80 border-zinc-700/10' : 'bg-zinc-900/80 border-zinc-700/50'}`}>
     
     <a href="/" class="flex items-center gap-2 px-3 py-1 group shrink-0">
       <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center group-hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-500/20">
         <Icon name="lucide:terminal" class="w-5 h-5 text-white" />
       </div>
-      <span class="text-zinc-100 font-bold tracking-tight">Léo Blouin<span class="text-indigo-500">.</span></span>
+      <span class={`font-bold tracking-tight ${isFreelance ? 'text-zinc-950' : 'text-zinc-100'}`}>Léo Blouin<span class="text-indigo-500">.</span></span>
     </a>
 
     <ul class="hidden md:flex items-center gap-1">
-      {navItems.map((item) => (
+      {(isFreelance ? navLinksFreelance : navLinksPortfolio).map((item) => (
         <li>
-          <a href={item.href} class="text-sm font-medium text-zinc-400 hover:text-white px-4 py-2 rounded-full transition-all hover:bg-zinc-800">
+          <a href={item.href} class={`text-sm font-medium px-4 py-2 rounded-full transition-all ${isFreelance ? 'text-zinc-800 hover:text-white hover:bg-linear-to-tl from-indigo-900 to-indigo-600' : 'text-zinc-400 hover:text-white hover:bg-zinc-800'}`}>
             {item.name}
           </a>
         </li>
@@ -30,14 +38,14 @@ const navItems = [
     </ul>
 
     <div class="flex items-center gap-1">
-      <div class="hidden sm:flex items-center mr-2">
+      <div class={isFreelance ? 'hidden' : 'hidden sm:flex items-center mr-2'}>
         <a href="https://github.com/LeoBlouin" target="_blank" class="p-2 text-zinc-400 hover:text-indigo-400 transition-colors" aria-label="GitHub">
           <Icon name="lucide:github" class="w-5 h-5" />
         </a>
       </div>
 
-      <a href="/freelance" class="hidden lg:block px-5 py-2 rounded-full border border-indigo-500/30 text-indigo-400 text-sm font-mono hover:bg-indigo-500/10 transition-all font-bold">
-        Création Site Web
+      <a href={isFreelance ? '/' : '/freelance'} class="hidden lg:block px-5 py-2 rounded-full border border-indigo-500/30 text-indigo-400 text-sm font-mono hover:bg-indigo-500/10 transition-all font-bold">
+        {isFreelance ? 'Portfolio': 'Création Site Web'}
       </a>
 
       <button id="menu-toggle" class="lg:hidden p-2 text-zinc-300 hover:bg-zinc-800 rounded-xl transition-colors z-1001 cursor-pointer" aria-label="Menu">
@@ -61,7 +69,7 @@ const navItems = [
 
   <nav class="w-full max-w-lg mx-auto flex flex-col gap-10">
     <ul class="flex flex-col gap-6">
-      {navItems.map((item, index) => (
+      {(isFreelance ? navLinksFreelance : navLinksPortfolio).map((item, index) => (
         <li 
           class="mobile-nav-item opacity-0 translate-y-8 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" 
           style={`transition-delay: ${index * 50}ms`}
@@ -77,10 +85,10 @@ const navItems = [
     <div class="h-px w-full bg-zinc-800/50 mobile-nav-item opacity-0 translate-y-8" style="transition-delay: 250ms"></div>
 
     <div class="mobile-nav-item opacity-0 translate-y-8 transition-all duration-700" style="transition-delay: 300ms">
-      <a href="/freelance" class="group flex items-center justify-between p-6 rounded-3xl bg-white text-zinc-950 shadow-2xl hover:bg-zinc-100 transition-colors">
+      <a href={isFreelance ? '/' : '/freelance'} class="group flex items-center justify-between p-6 rounded-3xl bg-white text-zinc-950 shadow-2xl hover:bg-zinc-100 transition-colors">
         <div class="flex flex-col text-left">
-          <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-500 mb-1">Service Pro</span>
-          <span class="text-xl font-bold">Création Site Web</span>
+          <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-zinc-500 mb-1">{isFreelance ? 'Ma vitrine' : 'Service Pro'}</span>
+          <span class="text-xl font-bold">{isFreelance ? 'Portfolio': 'Création Site Web'}</span>
         </div>
         <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white transition-transform group-active:scale-90">
           <Icon name="lucide:arrow-right" class="w-6 h-6" />

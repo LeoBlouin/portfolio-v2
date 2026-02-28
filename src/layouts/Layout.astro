@@ -7,11 +7,13 @@ import Footer from '../components/Footer.astro';
 interface Props {
 	title?: string;
 	description?: string;
+	isFreelance?: boolean;
 }
 
 const { 
-    title = "Portfolio | Développeur Fullstack", 
-    description = "Développeur Fullstack expert TypeScript, NestJS et Astro." 
+	title = "Portfolio | Développeur Fullstack", 
+	description = "Développeur Fullstack expert TypeScript, NestJS et Astro." ,
+	isFreelance = false
 } = Astro.props;
 ---
 
@@ -33,13 +35,13 @@ const {
 		
 		<div class="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#1e1e20_1px,transparent_1px)] [background-size:32px_32px]"></div>
 
-		<Header />
+		<Header isFreelance={isFreelance} />
 		
 		<main class="grow">
 			<slot />
 		</main>
 
-		<Footer />
+		<Footer isFreelance={isFreelance} />
 
 		<script>
 			const setupReveal = () => {
