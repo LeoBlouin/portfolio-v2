@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+body {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
 /* 🎨 Configuration du Thème Tailwind 4 */
 @theme {
   /* Couleurs personnalisées (Palette Zinc/Slate pour le côté Pro) */
